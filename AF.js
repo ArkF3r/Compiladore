@@ -101,20 +101,6 @@ class AFN {
         this.EdosAcep.push(e2);
         return this;
     }
-    CerraduraPositiva() {
-        let e1 = new Estado();
-        let e2 = new Estado();
-        e2.Acept = true;
-        e1.transiciones.push(new Transicion('ep', this.EdoIni));
-        for (var e of this.EdosAcep) {
-            e.transiciones.push(new Transicion('ep', e2));
-            e.EdosAcep = false;
-        }
-        this.EdosAcep = [];
-        this.EdoIni = e1;
-        this.EdosAcep.push(e2);
-        return this;
-    }
 }
 let a = new AFN();
 a = a.creaBasico('d');
