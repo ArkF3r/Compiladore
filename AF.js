@@ -65,6 +65,9 @@ class AFN {
         this.EdoIni = e1;
         this.EdosAcep.push(e2);
         this.Alfabeto = union_arrays(this.Alfabeto, f2.Alfabeto);
+        this.Estados = this.Estados.concat(f2.Estados); //Agrego los nuevos estados al AFN
+        this.Estados.push(e1);
+        this.Estados.push(e2);
         return this;
     }
     Concatenar(f2) {
@@ -77,6 +80,7 @@ class AFN {
             this.EdosAcep.push(e);
         }
         this.Alfabeto = union_arrays(this.Alfabeto, f2.Alfabeto);
+        this.Estados = this.Estados.concat(f2.Estados); //Agrego los nuevos estados al AFN
         return this;
     }
     Cerradura(tipo) { // tipo = 0 {cerradura estrella} | tipo = 1 {cerradura positiva} | tipo = 2 {A?}
@@ -99,6 +103,8 @@ class AFN {
         this.EdosAcep = [];
         this.EdoIni = e1;
         this.EdosAcep.push(e2);
+        this.Estados.push(e1);
+        this.Estados.push(e2);
         return this;
     }
     Mover(conjunto_edos, simbolo) { //Funcion nueva
@@ -111,34 +117,68 @@ class AFN {
 
             }
         }
-
         return conjunto_resul;
     }
-    CerraduraEpsilon(conjunto_edos, ) //Funcion nueva
+    CerraduraEpsilon(conjunto_edos) { //Funcion nueva
+        var conjunto_R = [];
+        var pila = [];
+        var visitados = new Set();
+        for (var e of conjunto_edos) {
+            pila.push(e);
+        }
+        while (pila.length > 0) {
+            var e = pila.pop();
+            var id_estado = e.num;
+            if (!visitados.has(id_estado)) {
+                visitados.add(id_estado);
+                conjunto_R.push(e);
+                for (var t of e.transiciones) {
+                    if (t.simbolo === 'ep') {
+                        pila.push(t.estadod);
+                    }
+                }
+            }
 
+        }
+
+        return conjunto_R;
+    }
+    Ir_a(conjunto_edos, simbolo) { //funcion nueva
+            var conjunto_R = [];
+            conjunto_R = this.CerraduraEpsilon(this.Mover(conjunto_edos, simbolo));
+            return conjunto_R;
+        }
+        /*convierte_AFD() { //funcion nueva
+            let C_AFD = new AFN();
+            C_AFD.Alfabeto = this.Alfabeto;
+            
+            var So = [];
+            var E = [];
+
+            So = this.CerraduraEpsilon(this.EdoIni);
+            if(So === []){
+                C_AFD.EdoIni = this.EdoIni;
+            }
+            E.push(So);
+
+
+            return C_AFD;
+        }*/
 }
 let a = new AFN();
-a = a.creaBasico('d');
+a = a.creaBasico('a');
 let b = new AFN();
-b = b.creaBasico('e');
-let c = new AFN();
-c = c.creaBasico('s');
-console.log('\nBasico1\n');
-console.log(a);
-console.log('\nBasico2\n');
-console.log(b);
-console.log('\nBasico3\n');
-console.log(c);
-a = a.Cerradura(0);
-console.log('\nCerraduraE\n');
-console.log(a);
-a = a.Unir(c);
-console.log('\nUnir\n');
-console.log(a);
+b = b.creaBasico('b');
+a = a.Unir(b);
+b = b.creaBasico('c');
+b = b.Cerradura(0);
 a = a.Concatenar(b);
-console.log('\nConcatenar\n');
-console.log(a);
-a = a.Cerradura(1);
-console.log('\nCerraduraP\n');
-console.log(a);
+for (var e of a.Estados) {
+    console.log('\n\n');
+    console.log(a.CerraduraEpsilon([e]));
+}
+//console.log(a);
+//console.log('\n\na\n');
+//console.log(a.EdoIni.transiciones);
+//console.log(a.CerraduraEpsilon([a.EdoIni]));
 //console.log(a.EdoIni.transiciones[0]);
