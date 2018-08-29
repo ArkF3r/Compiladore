@@ -102,7 +102,7 @@ class AFN {
         return this;
     }
     Mover(conjunto_edos, simbolo) { //Funcion nueva
-        var = conjunto_resul = [];
+        var conjunto_resul = [];
         for (var e of conjunto_edos) {
             for (var t of e.transiciones) {
                 if (t.simbolo === simbolo) {
