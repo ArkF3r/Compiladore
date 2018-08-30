@@ -143,26 +143,10 @@ class AFN {
         return conjunto_R;
     }
     Ir_a(conjunto_edos, simbolo) { //funcion nueva
-            var conjunto_R = [];
-            conjunto_R = this.CerraduraEpsilon(this.Mover(conjunto_edos, simbolo));
-            return conjunto_R;
-        }
-        /*convierte_AFD() { //funcion nueva
-            let C_AFD = new AFN();
-            C_AFD.Alfabeto = this.Alfabeto;
-            
-            var So = [];
-            var E = [];
-
-            So = this.CerraduraEpsilon(this.EdoIni);
-            if(So === []){
-                C_AFD.EdoIni = this.EdoIni;
-            }
-            E.push(So);
-
-
-            return C_AFD;
-        }*/
+        var conjunto_R = [];
+        conjunto_R = this.CerraduraEpsilon(this.Mover(conjunto_edos, simbolo));
+        return conjunto_R;
+    }
 }
 let a = new AFN();
 a = a.creaBasico('a');
