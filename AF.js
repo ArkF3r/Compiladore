@@ -131,11 +131,10 @@ class AFN {
             var id_estado = e.num;
             if (!visitados.has(id_estado)) {
                 visitados.add(id_estado);
-                //conjunto_R.push(e);
+                conjunto_R.push(e);
                 for (var t of e.transiciones) {
                     if (t.simbolo === 'ep') {
                         pila.push(t.estadod);
-                        conjunto_R.push(t.estadod); //Este
                     }
                 }
             }
@@ -174,10 +173,10 @@ b = b.creaBasico('c');
 b = b.Cerradura(0);
 a = a.Concatenar(b);
 console.log(b);
-for (var e of b.Estados) {
-    console.log('\n');
-    console.log(a.CerraduraEpsilon([e]));
-}
+//for (var e of b.Estados) {
+//    console.log('\n');
+console.log(a.CerraduraEpsilon([b.Estados[1], b.Estados[2]]));
+//}
 //console.log('\n\na\n');
 //console.log(a.EdoIni.transiciones);
 //console.log(a.CerraduraEpsilon([a.EdoIni]));
